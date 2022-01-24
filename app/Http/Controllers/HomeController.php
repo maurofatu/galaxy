@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Capitan;
+use App\Models\Jugador;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
 {
@@ -23,6 +26,12 @@ class HomeController extends Controller
      */
     public function index()
     {
+
+        $totalcapi = Capitan::count();
+        $totaljuga = Jugador::count();
+        session(['totalcapi' => $totalcapi]);
+        session(['totaljuga' => $totaljuga]);
+
         return view('dashboard');
     }
 }
