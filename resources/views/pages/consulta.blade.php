@@ -15,6 +15,9 @@
                     <div class="card-header bg-transparent">
                         <h3 class="mb-0 text-center"><b>CONSULTAS</b></h3>
                     </div>
+                    <div class="container text-right">
+                        <a href="{{ route('reporte') }}" class="btn btn-primary">Descargar Reporte General</a>
+                    </div>
                     <div class="card-body">
                         <div class="row icon-examples">
 
