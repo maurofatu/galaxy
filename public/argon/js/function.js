@@ -35,7 +35,7 @@ function buscarjugadores(e) {
             $('#tablejug tbody').html('');
         },
         success: function (response) {
-            if (response == "") { 
+            if (response == "") {
                 swal({
                     title: "Error",
                     text: "No se encontró jugadores",
@@ -48,7 +48,7 @@ function buscarjugadores(e) {
             response.forEach((item) => {
                 cont++;
                 let row = document.createElement('tr');
-                
+
                 let data0 = document.createElement('td');
                 data0.innerHTML = cont;
                 let data1 = document.createElement('td');
@@ -74,10 +74,62 @@ function buscarjugadores(e) {
                 row.appendChild(data5);
                 row.appendChild(data6);
                 row.appendChild(data7);
-                
+
                 table.append(row);
-                
+
             });
+
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            swal({
+                title: XMLHttpRequest.statusText,
+                text: XMLHttpRequest.responseJSON.message,
+                icon: "error",
+            });
+        },
+    });
+}
+
+function infojugador(e){
+    let cedula = e.target.value;
+    $.ajax({
+        method: "GET",
+        url: "/infojugador/" + cedula,
+        success: function (response) {
+            if (response == "") {
+                swal({
+                    title: "Error",
+                    text: "No se encontró información",
+                    icon: "error",
+                });
+                return;
+            }
+            let campos = [
+                "aporte",
+                "barrio",
+                "cedula",
+                "celular",
+                "comuna",
+                "depvot",
+                "direccion",
+                "email",
+                "fecnac",
+                "genero",
+                "lugvot",
+                "mesvot",
+                "municipio",
+                "munvot",
+                "nombres",
+                "ocupacion",
+                "poblacion",
+                "profesion",
+            ];
+
+            campos.forEach(element => {
+                if(element != "" || element != null)
+                    document.getElementById(element).value=response[0][element];
+            });
+
 
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {

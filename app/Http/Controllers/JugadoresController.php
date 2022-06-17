@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FormularioRequest;
 use App\Models\Capitan;
 use App\Models\Jugador;
+use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class JugadoresController extends Controller
 {
@@ -30,30 +33,125 @@ class JugadoresController extends Controller
         return view('pages/jugadores');
     }
 
-    public function store(FormularioRequest $request){
+    public function store(FormularioRequest $request)
+    {
 
-        $validado = $request->validated();
-        
-        $capitan = Jugador::create($validado);
+        try {
+            $validado = $request->validated();
 
-        return redirect()->route('jugadores')->with(['message'=>'Listo']);
+            Jugador::create($validado);
 
+            return redirect()->route('jugadores')->with(['success' => 'Agregado con exito!']);
+        } catch (Exception $ex) {
+            return redirect()->route('jugadores')->with(['error' => 'Error ' . $ex->getMessage()]);
+        }
     }
 
-    public function SearchCapitan($id){
+    public function SearchCapitan($id)
+    {
 
-        try{
+        try {
 
-            $nombre = Capitan::where("cedula",$id)->select("nombres")->first();
-            
-            if($nombre){
+            $nombre = Capitan::where("cedula", $id)->select("nombres")->first();
+
+            if ($nombre) {
                 return response()->json($nombre, 200);
-            }else{
-                return response()->json(['message'=> 'No se encontró capitan'],404);
+            } else {
+                return response()->json(['message' => 'No se encontró capitan'], 404);
             }
-        }catch(\Illuminate\Database\QueryException $e ) {
+        } catch (\Illuminate\Database\QueryException $e) {
             return response()->json(['message' => $e->getMessage()], 500);
         }
+    }
 
+    public function ConsultaJugadores()
+    {
+
+        $cedula = auth()->user()->cedula;
+        // $jugadoreslist = Jugador::select('cedula', 'nombres')->get();
+        $jugadoreslist = Jugador::where('cedulalider', $cedula)->get();
+        $result = Capitan::where('cedula', '111')->where('nombres', '<>', 'mauro')->get();
+        $data = [
+            'result' => $result,
+            'jugadoreslist' => $jugadoreslist,
+            'status' => 200
+        ];
+        // return view('pages/consulta',["data"=>$data]);
+        return view('pages/consultajugadores', ["data" => $data]);
+    }
+
+    public function InfoJugador($cedula)
+    {
+
+        try {
+
+            $jugadorlist = Jugador::where("cedula", $cedula)->get();
+
+            if ($jugadorlist) {
+                return response()->json($jugadorlist, 200);
+            } else {
+                return response()->json(['message' => 'No se encontró jugadores'], 404);
+            }
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
+    }
+
+    public function EditarJugador(Request $request)
+    {
+
+
+        $jugador = Jugador::firstWhere('cedula', $request['cedula']);
+
+        try {
+            $jugador->update([
+                'nombres' => $request['nombres'],
+                'depvot' => $request['depvot'],
+                'munvot' => $request['munvot'],
+                'lugvot' => $request['lugvot'],
+                'mesvot' => $request['mesvot'],
+                'celular' => $request['celular'],
+                'municipio' => $request['municipio'],
+                'comuna' => $request['comuna'],
+                'barrio' => $request['barrio'],
+                'direccion' => $request['direccion'],
+                'email' => $request['email'],
+                'fecnac' => $request['fecnac'],
+                'genero' => $request['genero'],
+                'poblacion' => $request['poblacion'],
+                'ocupacion' => $request['ocupacion'],
+                'profesion' => $request['profesion'],
+                'aporte' => $request['aporte'],
+            ]);
+
+            return redirect()->route('consultajugadores')->with(['success' => 'Actualizado con exito!']);
+        } catch (Exception $ex) {
+            return redirect()->route('consultajugadores')->with(['error' => 'Error: ' . $ex->getMessage()]);
+        }
+    }
+
+    public function createuser()
+    {
+
+        $listcapitanes = Capitan::get();
+
+
+
+        foreach ($listcapitanes as $item) {
+
+            $user = User::firstWhere('cedula', $item->cedula);
+            if (!$user) {
+
+                User::create([
+                    'name' => $item->nombres,
+                    'cedula' => $item->cedula,
+                    'email' => $item->email,
+                    'password' => Hash::make($item->cedula),
+                    'role' => '3'
+                ]);
+            }
+        }
+
+        return "Buen trabajo muchacho!";
     }
 }

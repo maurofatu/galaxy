@@ -9,7 +9,11 @@
                             <div class="row">
                                 <div class="col">
                                     <h5 class="card-title text-uppercase text-muted mb-0">Capitanes</h5>
+                                    @if(auth()->user()->role == '1')
                                     <span class="h2 font-weight-bold mb-0"> {{ Session::get('totalcapi'); }} </span>
+                                    @else
+                                    <span class="h2 font-weight-bold mb-0"> -- </span>
+                                    @endif
                                 </div>
                                 <div class="col-auto">
                                     <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
@@ -30,8 +34,11 @@
                             <div class="row">
                                 <div class="col">
                                     <h5 class="card-title text-uppercase text-muted mb-0">Jugadores</h5>
+                                    @if(auth()->user()->role == '1')
                                     <span class="h2 font-weight-bold mb-0"> {{ Session::get('totaljuga'); }} </span>
-                                    {{-- <span class="h2 font-weight-bold mb-0">1.857</span> --}}
+                                    @else
+                                    <span class="h2 font-weight-bold mb-0"> -- </span>
+                                    @endif
                                 </div>
                                 <div class="col-auto">
                                     <div class="icon icon-shape bg-warning text-white rounded-circle shadow">

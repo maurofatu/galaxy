@@ -104,20 +104,26 @@
                         </ul>
                     </div>
                 </li> --}}
-
+                @if(auth()->user()->role == '1')
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('capitanes') }}">
-                        <i class="fa fa-trophy text-blue"></i> {{ __('Capitanes') }}
+                        <i class="fa fa-trophy text-blue"></i> {{ __('Agregar Capitanes') }}
                     </a>
                 </li>
                 <li class="nav-item ">
                     <a class="nav-link" href="{{ route('jugadores') }}">
-                        <i class="fa fa-users text-orange"></i> {{ __('Jugadores') }}
+                        <i class="fa fa-users text-orange"></i> {{ __('Agregar Jugadores') }}
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('consulta') }}">
                         <i class="fa fa-list-alt text-pink"></i> {{ __('Consulta') }}
+                    </a>
+                </li>
+                @endif
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('consultajugadores') }}">
+                        <i class="fa fa-list-alt text-pink"></i> {{ __('Editar Jugadores') }}
                     </a>
                 </li>
             </ul>

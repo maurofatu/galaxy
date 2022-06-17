@@ -48,12 +48,32 @@
 
     <!-- Argon JS -->
     <script src="{{ asset('argon') }}/js/argon.js?v=1.0.0"></script>
-    @if (session('message'))
+    @if (session('success'))
         <script>
             swal({
                 title: "Buen Trabajo!",
-                text: "Se guardó con éxito!",
+                text: '{{ session('success') }}',
                 icon: "success",
+                button: "Continuar",
+            });
+        </script>
+    @endif
+    @if (session('error'))
+        <script>
+            swal({
+                title: "Error!",
+                text: '{{ session('error') }}',
+                icon: "error",
+                button: "Continuar",
+            });
+        </script>
+    @endif
+    @if (session('warning'))
+        <script>
+            swal({
+                title: "Alerta!",
+                text: '{{ session('warning') }}',
+                icon: "warning",
                 button: "Continuar",
             });
         </script>

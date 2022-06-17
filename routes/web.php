@@ -32,11 +32,19 @@ Route::get('/capitanes', 'App\Http\Controllers\CapitanesController@index')->name
 Route::get('/jugadores', 'App\Http\Controllers\JugadoresController@index')->name('jugadores');
 Route::get('/consulta', 'App\Http\Controllers\ConsultaController@index')->name('consulta');
 
+Route::get('/consultajugadores', 'App\Http\Controllers\JugadoresController@consultajugadores')->name('consultajugadores');
+
 Route::post('/capitanes', 'App\Http\Controllers\CapitanesController@store')->name('capitanes.store');
 
 Route::post('/jugadores', 'App\Http\Controllers\JugadoresController@store')->name('jugadores.store');
 
+Route::put('/einfojugador', 'App\Http\Controllers\JugadoresController@editarjugador')->name('jugadores.editarjugador');
+
 Route::get('/searchcapitan/{cedula}', 'App\Http\Controllers\JugadoresController@searchcapitan')->name('jugadores.searchcapitan');
+
+Route::get('/infojugador/{cedula}', 'App\Http\Controllers\JugadoresController@infojugador')->name('jugadores.infojugador');
+
+Route::get('/createuser', 'App\Http\Controllers\JugadoresController@createuser')->name('jugadores.createuser');
 
 Route::get('/searchjugadores/{cedula}', 'App\Http\Controllers\ConsultaController@searchjugadores')->name('consulta.searchjugadores');
 
