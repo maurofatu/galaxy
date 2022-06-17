@@ -130,28 +130,4 @@ class JugadoresController extends Controller
         }
     }
 
-    public function createuser()
-    {
-
-        $listcapitanes = Capitan::get();
-
-
-
-        foreach ($listcapitanes as $item) {
-
-            $user = User::firstWhere('cedula', $item->cedula);
-            if (!$user) {
-
-                User::create([
-                    'name' => $item->nombres,
-                    'cedula' => $item->cedula,
-                    'email' => $item->email,
-                    'password' => Hash::make($item->cedula),
-                    'role' => '3'
-                ]);
-            }
-        }
-
-        return "Buen trabajo muchacho!";
-    }
 }
