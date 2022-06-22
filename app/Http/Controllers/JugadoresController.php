@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\FormularioRequest;
 use App\Models\Capitan;
+use App\Models\Gener03;
+use App\Models\Gener04;
+use App\Models\Gener05;
+use App\Models\Gener06;
+use App\Models\Gener07;
 use App\Models\Jugador;
 use App\Models\User;
 use Exception;
@@ -71,9 +76,21 @@ class JugadoresController extends Controller
         // $jugadoreslist = Jugador::select('cedula', 'nombres')->get();
         $jugadoreslist = Jugador::where('cedulalider', $cedula)->get();
         $result = Capitan::where('cedula', '111')->where('nombres', '<>', 'mauro')->get();
+
+        $facvul = Gener03::get();
+        $vivienda = Gener04::get();
+        $discapacidad = Gener05::get();
+        $ocupacion = Gener06::get();
+        $nivedu = Gener07::get();
+
         $data = [
             'result' => $result,
             'jugadoreslist' => $jugadoreslist,
+            'facvul' => $facvul,
+            'ocupacion' => $ocupacion,
+            'vivienda' => $vivienda,
+            'discapacidad' => $discapacidad,
+            'nivedu' => $nivedu,
             'status' => 200
         ];
         // return view('pages/consulta',["data"=>$data]);
@@ -100,7 +117,7 @@ class JugadoresController extends Controller
     public function EditarJugador(Request $request)
     {
 
-
+        // return response()->json($request);
         $jugador = Jugador::firstWhere('cedula', $request['cedula']);
 
         try {
@@ -121,7 +138,14 @@ class JugadoresController extends Controller
                 'poblacion' => $request['poblacion'],
                 'ocupacion' => $request['ocupacion'],
                 'profesion' => $request['profesion'],
+                'vivienda' => $request['vivienda'],
+                'zona' => $request['zona'],
+                'tipdis' => $request['tipdis'],
+                'empleado' => $request['empleado'],
+                'cargo' => $request['cargo'],
                 'aporte' => $request['aporte'],
+                'whatsapp' => $request['whatsapp'],
+                'nivedu' => $request['nivedu'],
             ]);
 
             return redirect()->route('consultajugadores')->with(['success' => 'Actualizado con exito!']);

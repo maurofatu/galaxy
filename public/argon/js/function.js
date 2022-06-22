@@ -120,14 +120,35 @@ function infojugador(e){
                 "municipio",
                 "munvot",
                 "nombres",
-                "ocupacion",
-                "poblacion",
                 "profesion",
+                "empleado",
+                "cargo",
+                "zona",
+                "whatsapp",
+            ];
+
+            let campos2 = [
+                "poblacion",
+                "ocupacion",
+                "vivienda",
+                "tipdis",
+                "nivedu",
             ];
 
             campos.forEach(element => {
-                if(element != "" || element != null)
+                if(element != "" || element != null){
                     document.getElementById(element).value=response[0][element];
+                }
+                if(element == 'empleado' &&  response[0][element] == 'S'){
+                    $("#divcargo").show();
+                }
+            });
+
+            campos2.forEach(element => {
+                if(element != "" || element != null){
+                        $('#'+element).val([response[0][element]]);
+                        $('#'+element).trigger('change');
+                }
             });
 
 
@@ -140,4 +161,13 @@ function infojugador(e){
             });
         },
     });
+}
+
+function fempleado(e){
+    console.log(e.target.value);
+    if(e.target.value == 'S'){
+        $("#divcargo").show();
+    }else{
+        $("#divcargo").hide();
+    }
 }
