@@ -9,6 +9,7 @@ use App\Models\Gener04;
 use App\Models\Gener05;
 use App\Models\Gener06;
 use App\Models\Gener07;
+use App\Models\Gener08;
 use App\Models\Jugador;
 use App\Models\User;
 use Exception;
@@ -82,6 +83,7 @@ class JugadoresController extends Controller
         $discapacidad = Gener05::get();
         $ocupacion = Gener06::get();
         $nivedu = Gener07::get();
+        $etnia = Gener08::get();
 
         $data = [
             'result' => $result,
@@ -91,6 +93,7 @@ class JugadoresController extends Controller
             'vivienda' => $vivienda,
             'discapacidad' => $discapacidad,
             'nivedu' => $nivedu,
+            'etnia' => $etnia,
             'status' => 200
         ];
         // return view('pages/consulta',["data"=>$data]);
@@ -146,6 +149,7 @@ class JugadoresController extends Controller
                 'aporte' => $request['aporte'],
                 'whatsapp' => $request['whatsapp'],
                 'nivedu' => $request['nivedu'],
+                'etnia' => $request['etnia'],
             ]);
 
             return redirect()->route('consultajugadores')->with(['success' => 'Actualizado con exito!']);

@@ -166,11 +166,12 @@
                     <label for="comuna">Comuna</label>
                     <select class="form-control" id="comuna" name="comuna" required>
                         <option value="">Seleccione...</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
+                        <option value="1">1 (Raimundo Cisneros Olivera)</option>
+                        <option value="2">2(Josefa Canelones)</option>
+                        <option value="3">3 (José Antonio Benítez)</option>
+                        <option value="4">4 (José Laurencio Osio)</option>
+                        <option value="5">5 (Juan José Rondón)</option>
+                        <option value="6">CAÑAS BRAVAS</option>
                     </select>
                     @error('comuna')
                     <small style="color: #FF0000"> {{ $message }} </small>
@@ -236,7 +237,7 @@
             </div>
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="poblacion">Población</label>
+                    <label for="poblacion">Factor de Vulnerabilidad</label>
                     {{-- <input class="form-control" type="text" name="poblacion" id="poblacion" --}} {{--
                         value="{{ old('poblacion', '') }}" /> --}}
                     <select class="form-control js-example-basic-single" id="poblacion" name="poblacion" required>
@@ -246,6 +247,22 @@
                         @endforeach
                     </select>
                     @error('poblacion')
+                    <small style="color: #FF0000"> {{ $message }} </small>
+                    @enderror
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="poblacion">Etnia</label>
+                    {{-- <input class="form-control" type="text" name="poblacion" id="poblacion" --}} {{--
+                        value="{{ old('poblacion', '') }}" /> --}}
+                    <select class="form-control js-example-basic-single" id="etnia" name="etnia" required>
+                        <option value="">Seleccione...</option>
+                        @foreach ($data['etnia'] as $eitem)
+                        <option value="{{ $eitem->etnia }}"> {{ $eitem->detalle }} </option>
+                        @endforeach
+                    </select>
+                    @error('etnia')
                     <small style="color: #FF0000"> {{ $message }} </small>
                     @enderror
                 </div>
@@ -336,17 +353,18 @@
             </div>
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="">¿Usted es empleado?</label>
+                    <label for="">Tipo de empleo</label>
                     <select class="form-control" id="empleado" name="empleado" onchange="fempleado(event)" required>
                         <option value="">Seleccione...</option>
-                        <option value="N">NO</option>
-                        <option value="S">SI</option>
+                        <option value="F">FORMAL</option>
+                        <option value="I">INFORMAL</option>
+                        <option value="N">NO TIENE</option>
                     </select>
                 </div>
             </div>
             <div class="col-md-3" id="divcargo">
                 <div class="form-group">
-                    <label for="">Cual es el Cargo</label>
+                    <label for="">Cargo</label>
                     <input class="form-control" type="text" name="cargo" id="cargo" value="{{ old('cargo', '') }}" />
                 </div>
             </div>
