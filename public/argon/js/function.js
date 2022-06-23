@@ -117,7 +117,6 @@ function infojugador(e){
                 "genero",
                 "lugvot",
                 "mesvot",
-                "municipio",
                 "munvot",
                 "nombres",
                 "profesion",
@@ -125,6 +124,7 @@ function infojugador(e){
                 "cargo",
                 "zona",
                 "whatsapp",
+                "postgrado",
             ];
 
             let campos2 = [
@@ -134,15 +134,27 @@ function infojugador(e){
                 "tipdis",
                 "nivedu",
                 "etnia",
+                "profesion",
+                "municipio",
             ];
 
             campos.forEach(element => {
+                if(element == 'municipio'){
+                    if(value=response[0][element] == '81001'){
+                        $("#domcomuna").show(200);
+                        $("#domcomuna2").hide(200);
+                        $("#comuna").attr('required', '');
+                        $("#comuna2").removeAttr('required');
+                    }else{
+                        $("#domcomuna2").show(200);
+                        $("#domcomuna").hide(200);
+                        $("#comuna2").attr('required', '');
+                        $("#comuna").removeAttr('required');
+                    }
+                }
                 if(element != "" || element != null){
                     document.getElementById(element).value=response[0][element];
                 }
-                // if(element == 'empleado' &&  (response[0][element] == 'F' || response[0][element] == 'I')){
-                //     $("#divcargo").show();
-                // }
             });
 
             campos2.forEach(element => {
@@ -165,10 +177,76 @@ function infojugador(e){
 }
 
 function fempleado(e){
-    console.log(e.target.value);
     if(e.target.value == 'F' || e.target.value == 'I'){
-        $("#divcargo").show();
+        $("#divcargo").show(200);
+        $("#cargo").attr('required', '');
     }else{
-        $("#divcargo").hide();
+        $("#divcargo").hide(200);
+        $("#cargo").removeAttr('required');
+        $("#cargo").val('');
     }
+}
+
+function fpostgrado(e){
+    let profesiones = [5,6,7];
+
+    if(profesiones.find(i => i == e.target.value)){
+        $("#divpostgrado").show();
+        $("#postgrado").attr('required', '');
+    }else{
+        $("#divpostgrado").hide();
+        $("#postgrado").removeAttr('required');
+        $("#postgrado").val('');
+    }
+}
+
+function fmunicipio(e){
+    if(e.target.value == '81001'){
+        $("#domcomuna").show(200);
+        $("#domcomuna2").hide(200);
+        $("#comuna").attr('required', '');
+        $("#comuna2").removeAttr('required');
+        $("#dombarrio").show(200);
+        $("#dombarrio2").hide(200);
+        $("#barrio").attr('required', '');
+        $("#barrio2").removeAttr('required');
+    }else{
+        $("#domcomuna2").show(200);
+        $("#domcomuna").hide(200);
+        $("#comuna2").attr('required', '');
+        $("#comuna").removeAttr('required');
+        $("#dombarrio2").show(200);
+        $("#dombarrio").hide(200);
+        $("#barrio2").attr('required', '');
+        $("#barrio").removeAttr('required');
+    }
+}
+
+function fcomuna(e){
+console.log(e.target.value);
+let id = e.target.value;
+
+$.ajax({
+    method: "GET",
+    url: "/searchbarrio/" + id,
+    success: function (response) {
+        let select = document.getElementById('barrio');
+        select.innerHTML = '<option value="" selected disabled>Seleccione...</option>';
+        console.log(response);
+        response.forEach(element => {
+            const option = document.createElement('option');
+            option.value = element.id;
+            option.text = element.detalle;
+            select.appendChild(option);
+        });
+    },
+    error: function (XMLHttpRequest, textStatus, errorThrown) {
+        swal({
+            title: XMLHttpRequest.statusText,
+            text: XMLHttpRequest.responseJSON.message,
+            icon: "error",
+        });
+    },
+});
+
 }

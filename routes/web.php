@@ -48,6 +48,8 @@ Route::get('/createuser', 'App\Http\Controllers\JugadoresController@createuser')
 
 Route::get('/searchjugadores/{cedula}', 'App\Http\Controllers\ConsultaController@searchjugadores')->name('consulta.searchjugadores');
 
+Route::get('/searchbarrio/{id}', 'App\Http\Controllers\JugadoresController@searchbarrio')->name('jugadores.searchbarrio');
+
 
 
 

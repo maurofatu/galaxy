@@ -30,7 +30,7 @@
                                     <option value="{{ $iitem->cedula }}"> {{ $iitem->nombres }} </option>
                                     @endforeach
                                 </select>
-                                @error('comuna')
+                                @error('jugadores')
                                 <small style="color: #FF0000"> {{ $message }} </small>
                                 @enderror
                             </div>
@@ -153,37 +153,59 @@
             </div>
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="munres">Municipio</label>
-                    <input class="form-control" type="text" name="municipio" id="municipio"
-                        value="{{ old('municipio', '') }}" required />
+                    <label for="municipio">Municipio</label>
+                    <select class="form-control js-example-basic-single" id="municipio" name="municipio" onchange="fmunicipio(event)" required>
+                        <option value="">Seleccione...</option>
+                        @foreach ($data['municipio'] as $mitem)
+                        <option value="{{ $mitem->codzon }}"> {{ $mitem->detalle }} </option>
+                        @endforeach
+                    </select>
                     @error('municipio')
                     <small style="color: #FF0000"> {{ $message }} </small>
                     @enderror
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3" id="domcomuna">
                 <div class="form-group">
                     <label for="comuna">Comuna</label>
-                    <select class="form-control" id="comuna" name="comuna" required>
+                    <select class="form-control js-example-basic-single" id="comuna" name="comuna" onchange="fcomuna(event)" required>
                         <option value="">Seleccione...</option>
-                        <option value="1">1 (Raimundo Cisneros Olivera)</option>
-                        <option value="2">2(Josefa Canelones)</option>
-                        <option value="3">3 (José Antonio Benítez)</option>
-                        <option value="4">4 (José Laurencio Osio)</option>
-                        <option value="5">5 (Juan José Rondón)</option>
-                        <option value="6">CAÑAS BRAVAS</option>
+                        @foreach ($data['comuna'] as $fitem)
+                        <option value="{{ $fitem->comuna }}"> {{ $fitem->detalle }} </option>
+                        @endforeach
                     </select>
                     @error('comuna')
                     <small style="color: #FF0000"> {{ $message }} </small>
                     @enderror
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3" id="domcomuna2">
+                <div class="form-group" id="domcomuna">
+                    <label for="comuna2">Comuna</label>
+                    <input class="form-control" type="text" name="comuna2" id="comuna2" value="{{ old('comuna2', '') }}"
+                        required />
+                    @error('comuna2')
+                    <small style="color: #FF0000"> {{ $message }} </small>
+                    @enderror
+                </div>
+            </div>
+            <div class="col-md-3" id="dombarrio">
                 <div class="form-group">
                     <label for="barrio">Barrio</label>
-                    <input class="form-control" type="text" name="barrio" id="barrio" value="{{ old('barrio', '') }}"
-                        required />
+                    <select class="form-control js-example-basic-single" id="barrio" name="barrio" required>
+                        <option value="">Seleccione...</option>
+                    </select>
                     @error('barrio')
+                    <small style="color: #FF0000"> {{ $message }} </small>
+                    @enderror
+                </div>
+            </div>
+            <div class="col-md-3" id="dombarrio2">
+                <div class="form-group">
+                    <label for="barrio2">Barrio</label>
+                    <input class="form-control" type="text" name="barrio2" id="barrio2" value="{{ old('barrio2', '') }}"
+                        required />
+                    @error('barrio2')
                     <small style="color: #FF0000"> {{ $message }} </small>
                     @enderror
                 </div>
@@ -238,8 +260,6 @@
             <div class="col-md-3">
                 <div class="form-group">
                     <label for="poblacion">Factor de Vulnerabilidad</label>
-                    {{-- <input class="form-control" type="text" name="poblacion" id="poblacion" --}} {{--
-                        value="{{ old('poblacion', '') }}" /> --}}
                     <select class="form-control js-example-basic-single" id="poblacion" name="poblacion" required>
                         <option value="">Seleccione...</option>
                         @foreach ($data['facvul'] as $fitem)
@@ -270,7 +290,7 @@
             <div class="col-md-3">
                 <div class="form-group">
                     <label for="nivedu">Nivel Educativo</label>
-                    <select class="form-control js-example-basic-single" id="nivedu" name="nivedu" required>
+                    <select class="form-control js-example-basic-single" id="nivedu" name="nivedu" onchange="fpostgrado(event)" required>
                         <option value="">Seleccione...</option>
                         @foreach ($data['nivedu'] as $nitem)
                         <option value="{{ $nitem->nivedu }}"> {{ $nitem->detalle }} </option>
@@ -279,6 +299,12 @@
                     @error('nivedu')
                     <small style="color: #FF0000"> {{ $message }} </small>
                     @enderror
+                </div>
+            </div>
+            <div class="col-md-3" id="divpostgrado">
+                <div class="form-group">
+                    <label for="postgrado">Titulo Postgrado</label>
+                    <input class="form-control" type="text" name="postgrado" id="postgrado" value="{{ old('postgrado', '') }}" />
                 </div>
             </div>
             <div class="col-md-3">
@@ -300,14 +326,12 @@
             <div class="col-md-3">
                 <div class="form-group">
                     <label for="profesion">Profesión</label>
-                    <input class="form-control" type="text" name="profesion" id="profesion"
-                        value="{{ old('profesion', '') }}" required />
-                    {{-- <select class="form-control js-example-basic-single" id="profesion" name="profesion" required>
+                    <select class="form-control js-example-basic-single" id="profesion" name="profesion"  required>
                         <option value="">Seleccione...</option>
                         @foreach ($data['profesion'] as $pitem)
-                        <option value="{{ $pitem->codocu }}"> {{ $pitem->detalle }} </option>
+                        <option value="{{ $pitem->profesion }}"> {{ $pitem->detalle }} </option>
                         @endforeach
-                    </select> --}}
+                    </select>
                     @error('profesion')
                     <small style="color: #FF0000"> {{ $message }} </small>
                     @enderror
@@ -422,6 +446,7 @@
     $(document).ready(function() {
             $('.js-example-basic-single').select2();
             $("#divcargo").hide();
+            $("#divpostgrado").hide();
         });
 </script>
 @endpush

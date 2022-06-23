@@ -10,6 +10,10 @@ use App\Models\Gener05;
 use App\Models\Gener06;
 use App\Models\Gener07;
 use App\Models\Gener08;
+use App\Models\Gener09;
+use App\Models\Gener10;
+use App\Models\Gener11;
+use App\Models\Gener12;
 use App\Models\Jugador;
 use App\Models\User;
 use Exception;
@@ -84,6 +88,9 @@ class JugadoresController extends Controller
         $ocupacion = Gener06::get();
         $nivedu = Gener07::get();
         $etnia = Gener08::get();
+        $profesion = Gener09::get();
+        $municipio = Gener10::get();
+        $comuna = Gener11::get();
 
         $data = [
             'result' => $result,
@@ -94,6 +101,9 @@ class JugadoresController extends Controller
             'discapacidad' => $discapacidad,
             'nivedu' => $nivedu,
             'etnia' => $etnia,
+            'profesion' => $profesion,
+            'municipio' => $municipio,
+            'comuna' => $comuna,
             'status' => 200
         ];
         // return view('pages/consulta',["data"=>$data]);
@@ -124,6 +134,9 @@ class JugadoresController extends Controller
         $jugador = Jugador::firstWhere('cedula', $request['cedula']);
 
         try {
+            // $mcargo = $request['empleado'] == 'N' ? '' : $request['empleado'];
+            $comuna = $request['municipio'] == '81001' ? $request['comuna'] : $request['comuna2'];
+            $barrio = $request['municipio'] == '81001' ? $request['barrio'] : $request['barrio2'];
             $jugador->update([
                 'nombres' => $request['nombres'],
                 'depvot' => $request['depvot'],
@@ -132,8 +145,8 @@ class JugadoresController extends Controller
                 'mesvot' => $request['mesvot'],
                 'celular' => $request['celular'],
                 'municipio' => $request['municipio'],
-                'comuna' => $request['comuna'],
-                'barrio' => $request['barrio'],
+                'comuna' => $comuna,
+                'barrio' => $barrio,
                 'direccion' => $request['direccion'],
                 'email' => $request['email'],
                 'fecnac' => $request['fecnac'],
@@ -145,16 +158,33 @@ class JugadoresController extends Controller
                 'zona' => $request['zona'],
                 'tipdis' => $request['tipdis'],
                 'empleado' => $request['empleado'],
-                'cargo' => $request['cargo'],
+                'cargo' =>  $request['cargo'],
                 'aporte' => $request['aporte'],
                 'whatsapp' => $request['whatsapp'],
                 'nivedu' => $request['nivedu'],
                 'etnia' => $request['etnia'],
+                'postgrado' => $request['postgrado'],
             ]);
 
             return redirect()->route('consultajugadores')->with(['success' => 'Actualizado con exito!']);
         } catch (Exception $ex) {
             return redirect()->route('consultajugadores')->with(['error' => 'Error: ' . $ex->getMessage()]);
+        }
+    }
+
+    public function SearchBarrio($id)
+    {
+
+        try {
+
+            $barrios = Gener12::where("comuna", $id)->orderBy("detalle")->get(["id","detalle"]);
+            if ($barrios) {
+                return response()->json($barrios, 200);
+            } else {
+                return response()->json(['message' => 'No se encontró barrios'], 404);
+            }
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
         }
     }
 
