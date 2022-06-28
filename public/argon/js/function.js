@@ -123,6 +123,7 @@ function infojugador(e) {
                 "zona",
                 "whatsapp",
                 "postgrado",
+                "liderotro",
             ];
 
             let campos2 = [
@@ -136,6 +137,7 @@ function infojugador(e) {
                 "municipio",
                 "comuna",
                 "barrio",
+                "lider",
             ];
 
             campos.forEach((element) => {
@@ -151,6 +153,10 @@ function infojugador(e) {
                         $("#comuna2").attr("required", "");
                         $("#comuna").removeAttr("required");
                     }
+                }
+                if(element == "empleado" && (response[0][element] == "F" || response[0][element] == "I")){
+                    $("#divcargo").show(200);
+                    $("#cargo").attr("required", "");
                 }
                 if (element != "" || element != null) {
                     document.getElementById(element).value =
@@ -168,6 +174,10 @@ function infojugador(e) {
                         $("#" + element).val([response[0][element]]);
                         $("#" + element).trigger("change");
                     }, 500);
+                }
+                if(element == "lider" && response[0][element] == "6"){
+                    $("#divcargo").show(200);
+                    $("#cargo").attr("required", "");
                 }
             });
         },
@@ -202,6 +212,18 @@ function fpostgrado(e) {
         $("#divpostgrado").hide();
         $("#postgrado").removeAttr("required");
         $("#postgrado").val("");
+    }
+}
+
+function flider(e) {
+
+    if (e.target.value == '6') {
+        $("#divlider").show();
+        $("#lider").attr("required", "");
+    } else {
+        $("#divlider").hide();
+        $("#lider").removeAttr("required");
+        $("#lider").val("");
     }
 }
 

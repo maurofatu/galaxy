@@ -392,6 +392,23 @@
                     <input class="form-control" type="text" name="cargo" id="cargo" value="{{ old('cargo', '') }}" />
                 </div>
             </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="">Lider / Referente</label>
+                    <select class="form-control js-example-basic-single" id="lider" name="lider" onchange="flider(event)" required>
+                        <option value="">Seleccione...</option>
+                        @foreach ($data['lider'] as $litem)
+                        <option value="{{ $litem->lider }}"> {{ $litem->detalle }} </option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3" id="divlider">
+                <div class="form-group">
+                    <label for="">Otro, Cual?</label>
+                    <input class="form-control" type="text" name="liderotro" id="liderotro" value="{{ old('liderotro', '') }}" />
+                </div>
+            </div>
             <div class="col-md-10">
                 <div class="form-group">
                     <label for="aporte">Aporte</label>
@@ -447,6 +464,7 @@
             $('.js-example-basic-single').select2();
             $("#divcargo").hide();
             $("#divpostgrado").hide();
+            $("#divlider").hide();
         });
 </script>
 @endpush

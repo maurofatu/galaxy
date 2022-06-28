@@ -14,6 +14,7 @@ use App\Models\Gener09;
 use App\Models\Gener10;
 use App\Models\Gener11;
 use App\Models\Gener12;
+use App\Models\Gener13;
 use App\Models\Jugador;
 use App\Models\User;
 use Exception;
@@ -91,6 +92,7 @@ class JugadoresController extends Controller
         $profesion = Gener09::get();
         $municipio = Gener10::get();
         $comuna = Gener11::get();
+        $lider = Gener13::get();
 
         $data = [
             'result' => $result,
@@ -104,6 +106,7 @@ class JugadoresController extends Controller
             'profesion' => $profesion,
             'municipio' => $municipio,
             'comuna' => $comuna,
+            'lider' => $lider,
             'status' => 200
         ];
         // return view('pages/consulta',["data"=>$data]);
@@ -164,6 +167,8 @@ class JugadoresController extends Controller
                 'nivedu' => $request['nivedu'],
                 'etnia' => $request['etnia'],
                 'postgrado' => $request['postgrado'],
+                'lider' => $request['lider'],
+                'liderotro' => $request['liderotro'],
             ]);
 
             return redirect()->route('consultajugadores')->with(['success' => 'Actualizado con exito!']);
