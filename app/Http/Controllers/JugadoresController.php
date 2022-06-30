@@ -15,6 +15,7 @@ use App\Models\Gener10;
 use App\Models\Gener11;
 use App\Models\Gener12;
 use App\Models\Gener13;
+use App\Models\Gener14;
 use App\Models\Jugador;
 use App\Models\User;
 use Exception;
@@ -93,6 +94,7 @@ class JugadoresController extends Controller
         $municipio = Gener10::get();
         $comuna = Gener11::get();
         $lider = Gener13::get();
+        $rangedad = Gener14::get();
 
         $data = [
             'result' => $result,
@@ -107,6 +109,7 @@ class JugadoresController extends Controller
             'municipio' => $municipio,
             'comuna' => $comuna,
             'lider' => $lider,
+            'rangedad' => $rangedad,
             'status' => 200
         ];
         // return view('pages/consulta',["data"=>$data]);
@@ -135,6 +138,16 @@ class JugadoresController extends Controller
 
         // return response()->json($request);
         $jugador = Jugador::firstWhere('cedula', $request['cedula']);
+
+        $nohijos = $request['nohijos'];
+
+        $infohijos = [];
+
+        if($nohijos > 0){
+            for($i = 1; $i<= $nohijos; $i++){
+                $infohijos["ranghijo$i"] = $request["ranghijo$i"];
+            }
+        }
 
         try {
             // $mcargo = $request['empleado'] == 'N' ? '' : $request['empleado'];
@@ -169,6 +182,8 @@ class JugadoresController extends Controller
                 'postgrado' => $request['postgrado'],
                 'lider' => $request['lider'],
                 'liderotro' => $request['liderotro'],
+                'nohijos' => $nohijos,
+                'infohijos' => $infohijos,
             ]);
 
             return redirect()->route('consultajugadores')->with(['success' => 'Actualizado con exito!']);

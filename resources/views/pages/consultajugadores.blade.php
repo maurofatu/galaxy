@@ -424,7 +424,34 @@
 
 
         </div>
-
+        <h3 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
+            Información Familiar
+        </h3>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="nohijos">Numero de hijos</label>
+                    <input class="form-control" type="number" name="nohijos" id="nohijos" min="0" step="1" onchange="createInputSons(event)"
+                        value="{{ old('nohijos', '') }}" required />
+                    @error('nohijos')
+                    <small style="color: #FF0000"> {{ $message }} </small>
+                    @enderror
+                </div>
+            </div>
+        </div>
+        <div class="row" id="input_sons">
+            <div class="col-md-3" name="son" id="div-son1">
+                <div class="form-group">
+                    <label for="ranghijo1">Rango Edad Hijo 1</label>
+                    <select class="form-control js-example-basic-single" name="ranghijo1" id="ranghijo1"required>
+                        <option value="" disabled selected>Seleccione...</option>
+                        @foreach ($data['rangedad'] as $litem)
+                            <option value="{{ $litem->rangedad }}"> {{ $litem->detalle }} </option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+        </div>
         <div class="col-md-12 mt-2">
             <label class="flex items-center dark:text-gray-400">
                 <input type="checkbox"
@@ -465,6 +492,7 @@
             $("#divcargo").hide();
             $("#divpostgrado").hide();
             $("#divlider").hide();
+            $("#div-son1").hide();
         });
 </script>
 @endpush

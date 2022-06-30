@@ -138,6 +138,7 @@ function infojugador(e) {
                 "comuna",
                 "barrio",
                 "lider",
+                "nohijos",
             ];
 
             campos.forEach((element) => {
@@ -180,6 +181,15 @@ function infojugador(e) {
                     $("#cargo").attr("required", "");
                 }
             });
+
+            let infohijos = JSON.parse(response[0].infohijos??"{}");
+
+            Object.keys(infohijos).forEach(function(key) {
+                setTimeout(function () {
+                    $("#" + key).val([infohijos[key]]);
+                    $("#" + key).trigger("change");
+                }, 500);
+            })
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             swal({
@@ -276,4 +286,68 @@ function fcomuna(e) {
             });
         },
     });
+}
+
+function createInputSons(e){
+    let nohijos = e.target.value;
+    const estructura_id = {
+        'div': 'div-son',
+        'select': 'sonrang'
+    }
+
+    if(nohijos < 0){
+        e.target.value = 0;
+        nohijos = e.target.value;
+    }else if(nohijos > 100){
+        e.target.value = 100;
+        nohijos = e.target.value;
+    }
+
+    
+    const hijos = document.getElementsByName("son");
+    let noinputs = hijos.length;
+    if(nohijos < noinputs){
+        for(var i = noinputs; i > nohijos; i--){
+            if(i == 1){
+                $(`#${estructura_id.div}${i}`).hide(200)
+            }else{
+                $(`#${estructura_id.div}${i}`).remove();
+            }
+        }
+    }else{
+        const divInputs = $("#input_sons");
+        if(nohijos >= 1){
+            $(`#${estructura_id.div}1`).show(200)
+        }
+        let options = '';
+
+        $("#ranghijo1 option").each(function(){
+            const value = $(this).attr('value');
+            const text = $(this).text();
+            options += `<option ${!value ? 'disabled selected':''} value="${value}"> ${text} </option>`
+         });
+
+        for(var i = noinputs + 1 ; i <= nohijos; i++ ){
+            if(i > 1){
+                divInputs.append(
+                    $('<div>',{
+                        'class':'col-md-3',
+                        'name': 'son',
+                        'id':`${estructura_id.div}${i}`,
+                    }).append(
+                        $('<div>',{
+                            'class':"form-group",
+                            'html' : 
+                                `<label for="ranghijo1">Rango Edad Hijo ${i}</label>
+                                <select class="form-control js-example-basic-single" name="ranghijo${i}" id="ranghijo${i}"required>
+                                ${options}
+                                </select>`
+                        })
+                    )
+                );
+                $(`#ranghijo${i}`).select2();
+            }
+        }
+    }
+    
 }
