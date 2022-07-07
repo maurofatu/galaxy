@@ -292,7 +292,7 @@ function createInputSons(e){
     let nohijos = e.target.value;
     const estructura_id = {
         'div': 'div-son',
-        'select': 'sonrang'
+        'select': 'ranghijo'
     }
 
     if(nohijos < 0){
@@ -310,6 +310,7 @@ function createInputSons(e){
         for(var i = noinputs; i > nohijos; i--){
             if(i == 1){
                 $(`#${estructura_id.div}${i}`).hide(200)
+                $(`#${estructura_id.select}${i}`).removeAttr("required");
             }else{
                 $(`#${estructura_id.div}${i}`).remove();
             }
@@ -318,6 +319,7 @@ function createInputSons(e){
         const divInputs = $("#input_sons");
         if(nohijos >= 1){
             $(`#${estructura_id.div}1`).show(200)
+            $(`#${estructura_id.select}1`).attr("required", true);
         }
         let options = '';
 
