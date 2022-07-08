@@ -1,1 +1,1 @@
-<?php header("Location: https://araucaparatodos.com/public/"); ?>
+<?php header("Location: https://somosgalaxia.com/"); ?>

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -49,11 +50,6 @@ Route::get('/createuser', 'App\Http\Controllers\JugadoresController@createuser')
 Route::get('/searchjugadores/{cedula}', 'App\Http\Controllers\ConsultaController@searchjugadores')->name('consulta.searchjugadores');
 
 Route::get('/searchbarrio/{id}', 'App\Http\Controllers\JugadoresController@searchbarrio')->name('jugadores.searchbarrio');
-
-
-
-
-
 
 
 Route::group(['middleware' => 'auth'], function () {
