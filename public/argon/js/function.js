@@ -159,7 +159,7 @@ function infojugador(e) {
                     $("#divcargo").show(200);
                     $("#cargo").attr("required", "");
                 }
-                if (element != "" || element != null) {
+                if ((element != "" || element != null) && response[0][element] != undefined ) {
                     document.getElementById(element).value =
                         response[0][element];
                 }
@@ -171,6 +171,7 @@ function infojugador(e) {
                     $("#" + element).trigger("change");
                 }
                 if (element == "barrio") {
+                    console.log(response[0][element]);
                     setTimeout(function () {
                         $("#" + element).val([response[0][element]]);
                         $("#" + element).trigger("change");
@@ -263,6 +264,10 @@ function fcomuna(e) {
     console.log(e.target.value);
     let id = e.target.value;
 
+    if (id == ''){
+        return;
+    }
+
     $.ajax({
         method: "GET",
         url: "/searchbarrio/" + id,
@@ -303,7 +308,7 @@ function createInputSons(e){
         nohijos = e.target.value;
     }
 
-    
+
     const hijos = document.getElementsByName("son");
     let noinputs = hijos.length;
     if(nohijos < noinputs){
@@ -339,7 +344,7 @@ function createInputSons(e){
                     }).append(
                         $('<div>',{
                             'class':"form-group",
-                            'html' : 
+                            'html' :
                                 `<label for="ranghijo1">Rango Edad Hijo ${i}</label>
                                 <select class="form-control js-example-basic-single" name="ranghijo${i}" id="ranghijo${i}"required>
                                 ${options}
@@ -351,5 +356,5 @@ function createInputSons(e){
             }
         }
     }
-    
+
 }
